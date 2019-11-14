@@ -27,10 +27,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-
 class _MyHomePageState extends State<MyHomePage> {
-
-
   AMapController mapController;
 
   Marker currentMarker;
@@ -52,64 +49,71 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: AMap(
                     onMapCreated: onMapCreated,
                   ))),
-          Row(children: <Widget>[
-            FlatButton(
-              child: Text("移动到北京"),
-              onPressed: () {
-                if (mapController != null) {
-                  mapController.changeCamera(CameraPosition(
-                      target: LatLng(39.893927, 116.405972),
-                      zoom: 10
-                  ), _isAnimation);
-                }
-              },),
-            _isAnimationButton(),
-          ],),
-          Row(children: <Widget>[
-            FlatButton(
-              child: Text("添加Marker"),
-              onPressed: () {
-                if (mapController != null) {
-                  MarkerOptions options = MarkerOptions.defaultOptions;
-
-                  mapController.addMarker(options).then(
-                          (marker) {
-                        setState(() {
-                          currentMarker = marker;
-                        }
-                        );
-                      }
-                  );
-                }
-              },),
-            FlatButton(
-              child: Text("修改位置"),
-              onPressed: () {
-                if (mapController != null) {
-                  if (currentMarker != null) {
-                    //fixme 如果默认值不一样如何更新
-                    MarkerOptions markerOptions = MarkerOptions(
-                        position: LatLng(
-                            currentMarker.options.position.latitude,
-                            currentMarker.options.position.longitude + 0.001));
-                    mapController.updateMarker(currentMarker, markerOptions);
-                  } else {
-                    print("currentMarker is null");
+          Row(
+            children: <Widget>[
+              FlatButton(
+                child: Text("移动到北京"),
+                onPressed: () {
+                  if (mapController != null) {
+                    mapController.changeCamera(
+                        CameraPosition(
+                            target: LatLng(39.893927, 116.405972), zoom: 10),
+                        _isAnimation);
                   }
-                }
-              },),
-          ],),
-          Row(children: <Widget>[
-            FlatButton(
-              child: Text("添加Polyline"),
-              onPressed: () {
-                if (mapController != null) {
-                  MarkerOptions options = MarkerOptions.defaultOptions;
-                  mapController.addMarker(options);
-                }
-              },),
-          ],),
+                },
+              ),
+              _isAnimationButton(),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              FlatButton(
+                child: Text("添加Marker"),
+                onPressed: () {
+                  if (mapController != null) {
+                    MarkerOptions options = MarkerOptions.defaultOptions;
 
+                    mapController.addMarker(options).then((marker) {
+                      setState(() {
+                        currentMarker = marker;
+                      });
+                    });
+                  }
+                },
+              ),
+              FlatButton(
+                child: Text("修改位置"),
+                onPressed: () {
+                  if (mapController != null) {
+                    if (currentMarker != null) {
+                      //fixme 如果默认值不一样如何更新
+                      MarkerOptions markerOptions = MarkerOptions(
+                          position: LatLng(
+                              currentMarker.options.position.latitude,
+                              currentMarker.options.position.longitude +
+                                  0.001));
+                      mapController.updateMarker(currentMarker, markerOptions);
+                    } else {
+                      print("currentMarker is null");
+                    }
+                  }
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              FlatButton(
+                child: Text("添加Polyline"),
+                onPressed: () {
+                  if (mapController != null) {
+                    MarkerOptions options = MarkerOptions.defaultOptions;
+                    mapController.addMarker(options);
+                  }
+                },
+              ),
+            ],
+          ),
         ]));
   }
 
@@ -124,7 +128,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   void onMapCreated(AMapController controller) {
     print("onMapCreated");
     mapController = controller;
@@ -134,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
     mapController.onCameraChanged.add(onCameraChanged);
   }
 
-
   void onMapLoaded(argument) {
     print("onMapLoaded");
   }
@@ -142,6 +144,4 @@ class _MyHomePageState extends State<MyHomePage> {
   void onCameraChanged(CameraPosition cameraPostion) {
     print("onCameraChanged " + onCameraChanged.toString());
   }
-
-
 }
